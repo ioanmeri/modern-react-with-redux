@@ -89,3 +89,43 @@ div {
 ```
 npx create-react-app myapp
 ```
+
+## Why Create React App?
+
+Inside of this React project are a tone of different dependencies that will help us properly write our application. Babel (that converts any version of js to es5) constists of a tremendous number of packages and that partially explains why we see very large number of packages installed.
+
+## Starting and Stoppping a React App
+
+### Starting the app
+```
+npm start
+```
+
+### Stopping the React app
+
+Press **Control+C** at the terminal
+
+
+## Displaying Content with Functional Components
+**src/index.js**
+
+* Import the React and ReactDOM libraries
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+```
+* Create a react component
+```
+const App = () => {
+  return <div>Hi there!</div>;
+};
+```
+* Take the react component and show it on the screen
+```
+ReactDOM.render(<App />, document.querySelector('#root'));
+```
+
+* a component is a **Function** or a **Class**
+* that produces HTML to show to the user (using JSX)
+* and handles feedback from the user (using Event Handlers)
+
