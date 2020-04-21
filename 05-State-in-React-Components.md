@@ -27,4 +27,10 @@ When we define the constructor inside the App class, **we are essentially overri
 
 But we still want to make sure, that all the code inside base class constructor function still gets called. For that to happen, we call super with props.
 
-**Super** is a reference to the parent's constructor function.
+**super** is a reference to the parent's constructor function.
+
+## Updating State Properties
+
+We never ever want to initialize some work, or request from a call to the render method. Because the render method is going to be getting called all time.
+
+**setState** is a function that gets put on our App component automatically when we extended React.Component.
