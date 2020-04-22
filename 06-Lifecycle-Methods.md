@@ -80,10 +80,30 @@ class App extends React.Component {
 class App extends React.Component {
   state = { lat: null, errorMessage: '' };
   ...
-  
+
   render(){
     if(!this.state.errorMessage && this.state.lat){
       return <SeasonDisplay lat={this.state.lat} />
     }
 }
+```
+
+## Specifying Default Props
+
+```
+import React from 'react';
+
+const Spinner = (props) => {
+  return (
+    <div className="ui active dimmer">
+      <div className="ui big text loader">{props.message}</div>
+    </div>
+  );
+}
+
+Spinner.defaultProps = {
+  message: 'Loading...'
+};
+
+export default Spinner;
 ```
