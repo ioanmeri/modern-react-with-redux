@@ -63,3 +63,27 @@ shouldComponentUpdate
 getDerivedStateFromProps  
 getSnapshotBeforeUpdate  
 
+## Alternate State Intitilization
+
+No constructor!
+```
+class App extends React.Component {
+  state = { lat: null, errorMessage: '' };
+
+  ...
+}
+```
+
+## Passing State as Props
+
+```
+class App extends React.Component {
+  state = { lat: null, errorMessage: '' };
+  ...
+  
+  render(){
+    if(!this.state.errorMessage && this.state.lat){
+      return <SeasonDisplay lat={this.state.lat} />
+    }
+}
+```
