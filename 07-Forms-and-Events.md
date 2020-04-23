@@ -90,3 +90,42 @@ We call setState with the new value
 Component rerenders  
 |  
 Input is told what its value is (coming from state)
+
+### Why Controlled elements ?
+
+* we do not want to store information inside of our html elements.
+
+* we want the React side of our application to be what is driving all of the data that is flowing through our app.
+
+
+## Handling Form Submittal
+
+
+### this
+Instance of SearchBar:
+* state
+* render
+* onFormSubmit
+* **this**
+
+### How to determine this?
+
+```
+class Car {
+  setDriveSound(sound){
+    this.sound = sound;
+  }
+
+  drive(){
+    return this.sound;
+  }
+}
+
+const car = new Car();
+car.setDriveSound('vroom');
+car.drive();
+```
+
+**this** equals **car**.
+
+We look at the function call to find out what **this** is.
