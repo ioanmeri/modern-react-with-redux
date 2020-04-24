@@ -15,3 +15,12 @@ Libraries frequently used in React Apps for managing network requests:
 ```
 npm install --save axios
 ```
+
+### Flow
+* Component renders itself one time with no list of images
+* onSearchSubmit method called
+* Request made to unspash
+* ...wait...
+* Request complete
+* Set image data on state of App component
+* App component rerenders and shows images
