@@ -129,3 +129,55 @@ car.drive();
 **this** equals **car**.
 
 We look at the function call to find out what **this** is.
+
+## Communicating Child to Parent
+
+Props go down: Parent -> Child!
+
+We pass a callback function from parent to child as a prop.
+
+**App.js**:
+```
+class App extends React.Component {
+  onSearchSubmit(term){
+    console.log(term);
+  }
+
+  render(){
+    return (
+      <div className="ui container" style={{ marginTop: '10px' }}>
+        <SearchBar onSubmit={this.onSearchSubmit} />
+      </div>
+    );
+  }
+}
+```
+
+**SearchBar.js**
+```
+class SearchBar extends React.Component {
+  state = { term: '' };
+
+  onFormSubmit = (event) => {
+    event.preventDefault();
+
+    this.props.onSubmit(this.state.term);
+  }
+
+  render(){
+    return (
+      <div className="ui segment">
+        <form onSubmit={this.onFormSubmit} className="ui form">
+          <div className="field">
+            <label htmlFor="">Image Search</label>
+            <input 
+              type="text" 
+              value={this.state.term} 
+              onChange={(e) => this.setState({ term: e.target.value })} />
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+```
