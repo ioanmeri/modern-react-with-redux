@@ -61,3 +61,104 @@ _.omit(state,'age')
 * Fetch User - Fetch User - Fetch User
 * Show users in each UserHeader
 
+
+## Extracting Logic to MapStateToProps
+
+**ownProps** is a reference to the props that they are about to be sent into the component. This is for precalculation steps so that we don't have to pass a ton of data directly to the component.
+
+
+```
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions'
+
+class UserHeader extends React.Component {
+  componentDidMount(){
+    this.props.fetchUser(this.props.userId);
+  }
+
+  render(){
+    const { user } = this.props;
+
+    if(!user){
+      return null;
+    }
+
+    return <div className="header">{user.name}</div>;
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return { user: state.users.find(user => user.id === ownProps.userId) };
+};
+
+export default connect(mapStateToProps, { fetchUser })(UserHeader);
+```
+
+## Avoid Overfetching
+
+### Lodash Solution
+
+```
+npm install --save lodash
+```
+
+
+**/src/actions/index.js**
+```
+import _ from 'lodash';
+export const fetchUser = (id) => dispatch => {
+  _fetchUser(id, dispatch)
+}; 
+
+const _fetchUser = _.memoize(async (id, dispatch) => {
+  const response = await jsonPlaceholder.get(`/users/${id}`);
+
+  dispatch({ type: 'FETCH_USER', payload: response.data })
+});
+```
+
+Downside: If you want to refetch a user, you won't be able to do it again with the same memoization function.
+
+### Second Way
+
+**fetchPostsAndUsers()**
+* Call 'fetchPosts'
+* Get list of posts
+* Find all unique userId's from list of posts
+* Iterate over unique userId's
+* Call 'fetchUser' with each userId
+
+**/src/actions/index.js**
+```
+import _ from 'lodash';
+import jsonPlaceholder from '../apis/jsonPlaceholder';
+
+export const fetchPostsAndUsers = () => async (dispatch, getState) => {
+  await dispatch(fetchPosts());
+  const userIds = _.uniq(_.map(getState().posts, 'userId'))
+  userIds.forEach(id => dispatch(fetchUser(id)))
+};
+
+export const fetchPosts = () => async dispatch => {
+  const response = await jsonPlaceholder.get('/posts');
+
+  dispatch({ type: 'FETCH_POSTS', payload: response.data })
+}
+
+export const fetchUser = id => async dispatch => {
+  const response = await jsonPlaceholder.get(`/users/${id}`);
+
+  dispatch({ type: 'FETCH_USER', payload: response.data });
+};
+```
+
+the same with lodash chain:
+
+```
+  _.chain(getState().posts)
+    .map('userId')
+    .uniq()
+    .forEach(id => dispatch(fetchUser(id)))
+    .value();
+```
