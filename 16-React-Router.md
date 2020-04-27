@@ -114,3 +114,62 @@ const App = () => {
 * URL still changes
 * 'History' sees updated URL, takes URL and sends it to BrowserRouter
 * BrowserRouter communicates the URL to Route components
+
+
+## Always Visible Components
+
+NavBar: We show the Header inside the App component, outside of our BrowserRouter.
+
+
+```
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import StreamCreate from './streams/StreamCreate';
+import StreamEdit from './streams/StreamEdit';
+import StreamDelete from './streams/StreamDelete';
+import StreamList from './streams/StreamList';
+import StreamShow from './streams/StreamShow';
+import Header from './Header';
+
+const App = () => {
+  return (
+    <div className="ui container">
+      <BrowserRouter>
+        <div>
+          <Header />
+          <Route path="/" exact component={StreamList} />
+          <Route path="/streams/new" exact component={StreamCreate} />
+          <Route path="/streams/edit" exact component={StreamEdit} />
+          <Route path="/streams/delete" exact component={StreamDelete} />
+          <Route path="/streams/show" exact component={StreamShow} />
+        </div>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+```
+
+**/src/components/Header.js**
+```
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Header = () => {
+  return (
+    <div className="ui secondary pointing menu">
+      <Link to="/" className="item">
+        Streamer
+      </Link>
+      <div className="right menu">
+        <Link to="/" className="item">
+          All Streams
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Header;
+```
